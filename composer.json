@@ -1,0 +1,75 @@
+{
+    "name": "martinpetricko/laravel-database-mail",
+    "description": "Laravel package that allows sending emails stored in the database based on fired events.",
+    "keywords": [
+        "Martin Petricko",
+        "laravel-database-mail",
+        "laravel",
+        "database",
+        "mail"
+    ],
+    "homepage": "https://github.com/martinpetricko/laravel-database-mail",
+    "support": {
+        "issues": "https://github.com/martinpetricko/laravel-database-mail/issues",
+        "source": "https://github.com/martinpetricko/laravel-database-mail"
+    },
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Martin Petricko",
+            "email": "matopetricko@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "spatie/laravel-package-tools": "^1.19"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.1",
+        "laravel/pint": "^1.21",
+        "nunomaduro/collision": "^8.6",
+        "orchestra/testbench": "^10.0",
+        "pestphp/pest": "^3.7",
+        "pestphp/pest-plugin-arch": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "MartinPetricko\\LaravelDatabaseMail\\": "src/",
+            "MartinPetricko\\LaravelDatabaseMail\\Database\\Factories\\": "database/factories/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MartinPetricko\\LaravelDatabaseMail\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@composer run prepare",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MartinPetricko\\LaravelDatabaseMail\\LaravelDatabaseMailServiceProvider"
+            ],
+            "aliases": {
+                "LaravelDatabaseMail": "MartinPetricko\\LaravelDatabaseMail\\Facades\\LaravelDatabaseMail"
+            }
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

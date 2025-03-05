@@ -1,0 +1,11 @@
+{
+    "preset": "psr12",
+    "rules": {
+        "declare_strict_types": true,
+        "explicit_string_variable": true,
+        "not_operator_with_successor_space": false,
+        "concat_space": {
+            "spacing": "one"
+        }
+    }
+}
