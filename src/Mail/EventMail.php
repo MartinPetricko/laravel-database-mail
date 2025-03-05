@@ -44,12 +44,7 @@ class EventMail extends Mailable implements ShouldQueue
     {
         $attachments = [];
         foreach (array_intersect_key($this->event::getAttachments(), array_flip($this->mailTemplate->attachments)) as $attachment) {
-            /** @var Attachment|Attachment[] $laravelAttachment */
-            $laravelAttachment = $attachment->getAttachment($this->event);
-            if (!is_array($laravelAttachment)) {
-                $laravelAttachment = [$laravelAttachment];
-            }
-            $attachments[] = $laravelAttachment;
+            $attachments[] = $attachment->getAttachment($this->event);
         }
         return array_merge(...$attachments);
     }

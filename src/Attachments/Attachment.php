@@ -9,6 +9,9 @@ use Illuminate\Mail\Mailables\Attachment as LaravelAttachment;
 use Illuminate\Support\Facades\App;
 use MartinPetricko\LaravelDatabaseMail\Events\Contracts\TriggersDatabaseMail;
 
+/**
+ * @template TEvent of TriggersDatabaseMail
+ */
 class Attachment
 {
     /**
@@ -21,12 +24,12 @@ class Attachment
     /**
      * Closure that recieves event as param and returns Mailable Attachment.
      *
-     * @var Closure(mixed $event): (LaravelAttachment|LaravelAttachment[])
+     * @var Closure(TEvent $event): (LaravelAttachment|LaravelAttachment[])
      */
     protected Closure $attachment;
 
     /**
-     * @param Closure(mixed $event): (LaravelAttachment|LaravelAttachment[]) $attachment
+     * @param Closure(TEvent $event): (LaravelAttachment|LaravelAttachment[]) $attachment
      */
     public function __construct(string $name, Closure $attachment)
     {
@@ -40,12 +43,15 @@ class Attachment
     }
 
     /**
-     * @return LaravelAttachment|LaravelAttachment[]
+     * @return LaravelAttachment[]
      */
-    public function getAttachment(TriggersDatabaseMail $event): LaravelAttachment|array
+    public function getAttachment(TriggersDatabaseMail $event): array
     {
         /** @var LaravelAttachment|LaravelAttachment[] $attachments */
         $attachments = App::call($this->attachment, ['event' => $event]);
-        return $attachments;
+        if (is_array($attachments)) {
+            return $attachments;
+        }
+        return [$attachments];
     }
 }

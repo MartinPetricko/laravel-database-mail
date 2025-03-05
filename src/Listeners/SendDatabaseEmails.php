@@ -34,11 +34,7 @@ class SendDatabaseEmails
     {
         $recipients = [];
         foreach (array_intersect_key($event::getRecipients(), array_flip($mailTemplate->recipients)) as $recipient) {
-            $recipient = $recipient->getRecipient($event);
-            if (!is_array($recipient)) {
-                $recipient = [$recipient];
-            }
-            $recipients[] = $recipient;
+            $recipients[] = $recipient->getRecipient($event);
         }
         return array_merge(...$recipients);
     }

@@ -37,6 +37,7 @@ class MailTemplate extends Model
         'recipients',
         'attachments',
         'delay',
+        'is_active',
     ];
 
     protected $casts = [
