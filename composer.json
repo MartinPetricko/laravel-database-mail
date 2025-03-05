@@ -13,7 +13,7 @@
         "issues": "https://github.com/martinpetricko/laravel-database-mail/issues",
         "source": "https://github.com/martinpetricko/laravel-database-mail"
     },
-    "license": "proprietary",
+    "license": "MIT",
     "authors": [
         {
             "name": "Martin Petricko",
