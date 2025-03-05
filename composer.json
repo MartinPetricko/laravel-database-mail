@@ -23,7 +23,8 @@
     ],
     "require": {
         "php": "^8.2",
-        "spatie/laravel-package-tools": "^1.19"
+        "spatie/laravel-package-tools": "^1.19",
+        "nesbot/carbon": "^3.8"
     },
     "require-dev": {
         "larastan/larastan": "^3.1",
