@@ -190,8 +190,8 @@ $mailTemplate->subject = 'Welcome {{ $user->name }}';
 
 // The body of the mail rendered with blade
 $mailTemplate->body = <<<HTML
-    <h1>Welcome {{ $user->name }}</h1>
-    <p>Please verify your email address by clicking <a href="{{ $emailVerificationUrl }}">Here</a></p>
+    <h1>Welcome {{ \$user->name }}</h1>
+    <p>Please verify your email address by clicking <a href="{{ \$emailVerificationUrl }}">Here</a></p>
 HTML;
 
 // Keys of the recipients from event defined recipients that will receive the mail

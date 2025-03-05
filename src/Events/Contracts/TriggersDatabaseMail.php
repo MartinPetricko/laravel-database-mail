@@ -25,7 +25,7 @@ interface TriggersDatabaseMail
      * MailTemplate stores keys of recipients that will
      * receive the mail when event is fired.
      *
-     * @return array<string, Recipient>
+     * @return array<string, Recipient<$this>>
      */
     public static function getRecipients(): array;
 
@@ -34,7 +34,7 @@ interface TriggersDatabaseMail
      * MailTemplate stores keys of attachments that will be
      * attached to the mail when event is fired.
      *
-     * @return array<string, Attachment>
+     * @return array<string, Attachment<$this>>
      */
     public static function getAttachments(): array;
 

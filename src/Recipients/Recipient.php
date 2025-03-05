@@ -8,6 +8,9 @@ use Closure;
 use Illuminate\Support\Facades\App;
 use MartinPetricko\LaravelDatabaseMail\Events\Contracts\TriggersDatabaseMail;
 
+/**
+ * @template TEvent of TriggersDatabaseMail
+ */
 class Recipient
 {
     /**
@@ -21,12 +24,12 @@ class Recipient
      * Closure that recieves event as param and returns mail recipient
      * that will be passed to Mail::to() method..
      *
-     * @var Closure(mixed $event): mixed
+     * @var Closure(TEvent $event): mixed
      */
     protected Closure $recipient;
 
     /**
-     * @param Closure(mixed $event): mixed $recipient
+     * @param Closure(TEvent $event): mixed $recipient
      */
     public function __construct(string $name, Closure $recipient)
     {
@@ -39,8 +42,15 @@ class Recipient
         return $this->name;
     }
 
-    public function getRecipient(TriggersDatabaseMail $event): mixed
+    /**
+     * @return array<mixed>
+     */
+    public function getRecipient(TriggersDatabaseMail $event): array
     {
-        return App::call($this->recipient, ['event' => $event]);
+        $recipients = App::call($this->recipient, ['event' => $event]);
+        if (is_array($recipients)) {
+            return $recipients;
+        }
+        return [$recipients];
     }
 }

@@ -30,12 +30,6 @@ class Property
         $this->name = $name;
     }
 
-    public function name(string $name): static
-    {
-        $this->name = $name;
-        return $this;
-    }
-
     public function getName(): string
     {
         return $this->name;
@@ -93,8 +87,9 @@ class Property
     /** @param array<Property> $properties */
     public function properties(array $properties): static
     {
-        foreach ($this->properties = $properties as $property) {
-            $property->parent($this);
+        $this->properties = [];
+        foreach ($properties as $property) {
+            $this->properties[$property->getName()] = $property->parent($this);
         }
         return $this;
     }

@@ -42,6 +42,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "MartinPetricko\\LaravelDatabaseMail\\Example\\": "example/",
             "MartinPetricko\\LaravelDatabaseMail\\Tests\\": "tests/"
         }
     },
