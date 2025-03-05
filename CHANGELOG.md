@@ -11,5 +11,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added initial version of Laravel Database Mail
 
-[unreleased]: https://github.com/martinpetricko/laravel-database-mail/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/martinpetricko/laravel-database-mail/releases/tag/v1.0.0
+[unreleased]: https://github.com/martinpetricko/laravel-database-mail/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/martinpetricko/laravel-database-mail/releases/tag/1.0.0
