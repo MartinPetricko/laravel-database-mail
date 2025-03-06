@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace MartinPetricko\LaravelDatabaseMail\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
-use MartinPetricko\LaravelDatabaseMail\Database\Factories\MailTemplateFactory;
+use MartinPetricko\LaravelDatabaseMail\Facades\LaravelDatabaseMail;
 
 /**
  * @property int $id
@@ -22,12 +23,10 @@ use MartinPetricko\LaravelDatabaseMail\Database\Factories\MailTemplateFactory;
  * @property bool $is_active
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property Collection<MailException> $exceptions
  */
 class MailTemplate extends Model
 {
-    /** @use HasFactory<MailTemplateFactory> */
-    use HasFactory;
-
     protected $fillable = [
         'event',
         'name',
@@ -46,4 +45,10 @@ class MailTemplate extends Model
         'attachments' => 'array',
         'is_active' => 'bool',
     ];
+
+    /** @return HasMany<MailException, $this> */
+    public function exceptions(): HasMany
+    {
+        return $this->hasMany(LaravelDatabaseMail::getMailExceptionModel());
+    }
 }

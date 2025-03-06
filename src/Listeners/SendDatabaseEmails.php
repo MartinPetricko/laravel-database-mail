@@ -9,9 +9,11 @@ use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use MartinPetricko\LaravelDatabaseMail\Events\Contracts\TriggersDatabaseMail;
+use MartinPetricko\LaravelDatabaseMail\Exceptions\DatabaseMailException;
 use MartinPetricko\LaravelDatabaseMail\Facades\LaravelDatabaseMail;
 use MartinPetricko\LaravelDatabaseMail\Mail\EventMail;
 use MartinPetricko\LaravelDatabaseMail\Models\MailTemplate;
+use Throwable;
 
 class SendDatabaseEmails
 {
@@ -20,11 +22,15 @@ class SendDatabaseEmails
         $mailTemplates = LaravelDatabaseMail::getMailTemplateModel()::where('event', $event::class)->where('is_active', true)->get();
 
         foreach ($mailTemplates as $mailTemplate) {
-            $delayInterval = $this->getDelayInterval($mailTemplate);
-            foreach ($this->getRecipients($event, $mailTemplate) as $recipient) {
-                /** @var EventMail $mailable */
-                $mailable = App::make(LaravelDatabaseMail::getEventMail(), ['mailTemplate' => $mailTemplate, 'event' => $event]);
-                Mail::to($recipient)->later($delayInterval, $mailable);
+            try {
+                $delayInterval = $this->getDelayInterval($mailTemplate);
+                foreach ($this->getRecipients($event, $mailTemplate) as $recipient) {
+                    /** @var EventMail $mailable */
+                    $mailable = App::make(LaravelDatabaseMail::getEventMail(), ['mailTemplate' => $mailTemplate, 'event' => $event]);
+                    Mail::to($recipient)->later($delayInterval, $mailable);
+                }
+            } catch (Throwable $e) {
+                throw new DatabaseMailException($mailTemplate, $event, $e->getMessage(), $e->getCode(), $e);
             }
         }
     }

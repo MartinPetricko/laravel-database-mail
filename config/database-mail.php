@@ -17,6 +17,7 @@ return [
      */
     'models' => [
         'mail_template' => \MartinPetricko\LaravelDatabaseMail\Models\MailTemplate::class,
+        'mail_exception' => \MartinPetricko\LaravelDatabaseMail\Models\MailException::class,
     ],
 
     /**
