@@ -5,9 +5,8 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/martinpetricko/laravel-database-mail/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/martinpetricko/laravel-database-mail/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/martinpetricko/laravel-database-mail.svg?style=flat-square)](https://packagist.org/packages/martinpetricko/laravel-database-mail)
 
-[//]: # (TODO: add link to filament package)
 This package allows you to store email templates in your database, assign them to events and send them when the event is
-fired. For implementation of this package check out [FilamentPHP implementation](https://filamentphp.com/plugins).
+fired. For implementation of this package check out [FilamentPHP implementation](https://github.com/MartinPetricko/filament-database-mail-docs).
 
 ## Support me
 
