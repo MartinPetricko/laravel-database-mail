@@ -111,10 +111,10 @@ class Property
         return $this;
     }
 
-    public function getAccessor(): string
+    public function getAccessor(bool $absolute = true): string
     {
         if ($this->accessor !== null) {
-            if (!$this->hasParent()) {
+            if ($absolute === false || !$this->hasParent()) {
                 return $this->accessor;
             }
 
@@ -125,6 +125,10 @@ class Property
             return '$' . $this->getName();
         }
 
-        return $this->getParent()?->getAccessor() . '[\'' . $this->getName() . '\']';
+        if ($absolute === false) {
+            return '[\'' . $this->getName() . '\']';
+        }
+
+        return $this->getParent()?->getAccessor() . $this->getAccessor(false);
     }
 }

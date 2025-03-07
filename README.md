@@ -54,8 +54,8 @@ return [
      * Models that are used by Laravel Database Mail.
      */
     'models' => [
-        'mail_template' => \MartinPetricko\LaravelDatabaseMail\Models\MailTemplate::class,
         'mail_exception' => \MartinPetricko\LaravelDatabaseMail\Models\MailException::class,
+        'mail_template' => \MartinPetricko\LaravelDatabaseMail\Models\MailTemplate::class,
     ],
 
     /**
