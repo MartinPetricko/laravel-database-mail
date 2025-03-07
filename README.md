@@ -85,9 +85,6 @@ return [
 ];
 ```
 
-> **Note** Enable model pruning in laravel scheduler in order for MailException pruning to work. You can see how to do
-> that here [Pruning Models](https://laravel.com/docs/12.x/eloquent#pruning-models)
-
 Register excepitons reporting in `bootstrap/app.php`:
 
 ```php
@@ -102,6 +99,16 @@ use MartinPetricko\LaravelDatabaseMail\Facades\LaravelDatabaseMail;
         LaravelDatabaseMail::logException($e);
     });
 })
+```
+
+Enable exceptions table pruning:
+
+```php
+Schedule::command('model:prune', [
+    '--model' => [
+        MartinPetricko\LaravelDatabaseMail\Models\MailException::class,
+    ],
+])->daily();
 ```
 
 ## Usage

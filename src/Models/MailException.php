@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace MartinPetricko\LaravelDatabaseMail\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
@@ -25,7 +25,7 @@ use Illuminate\Support\Carbon;
  */
 class MailException extends Model
 {
-    use Prunable;
+    use MassPrunable;
 
     protected $fillable = [
         'mail_template_id',
@@ -51,6 +51,6 @@ class MailException extends Model
     /** @return Builder<MailException> */
     public function prunable(): Builder
     {
-        return static::where('created_at', '<', config('database-mail.prune_exceptions_period'));
+        return static::where('created_at', '<=', config('database-mail.prune_exceptions_period'));
     }
 }
