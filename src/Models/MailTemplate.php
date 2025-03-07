@@ -53,6 +53,7 @@ class MailTemplate extends Model
         return $this->hasMany(LaravelDatabaseMail::getMailExceptionModel());
     }
 
+    /** @return Attribute<string, string> */
     protected function subject(): Attribute
     {
         return Attribute::make(
@@ -60,6 +61,7 @@ class MailTemplate extends Model
         );
     }
 
+    /** @return Attribute<string, string> */
     protected function body(): Attribute
     {
         return Attribute::make(
