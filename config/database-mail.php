@@ -13,10 +13,16 @@ return [
     'register_event_listener' => true,
 
     /**
+     * Period of time when mail exceptions are pruned.
+     */
+    'prune_exceptions_period' => now()->subMonth(),
+
+    /**
      * Models that are used by Laravel Database Mail.
      */
     'models' => [
         'mail_template' => \MartinPetricko\LaravelDatabaseMail\Models\MailTemplate::class,
+        'mail_exception' => \MartinPetricko\LaravelDatabaseMail\Models\MailException::class,
     ],
 
     /**

@@ -6,7 +6,8 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/martinpetricko/laravel-database-mail.svg?style=flat-square)](https://packagist.org/packages/martinpetricko/laravel-database-mail)
 
 This package allows you to store email templates in your database, assign them to events and send them when the event is
-fired. For implementation of this package check out [FilamentPHP implementation](https://github.com/MartinPetricko/filament-database-mail-docs).
+fired. For implementation of this package check
+out [FilamentPHP implementation](https://github.com/MartinPetricko/filament-database-mail-docs).
 
 ## Support me
 
@@ -37,9 +38,6 @@ php artisan vendor:publish --tag="database-mail-config"
 This is the contents of the published config file:
 
 ```php
-/**
- * Config for MartinPetricko/LaravelDatabaseMail
- */
 return [
     /**
      * Register event listener for all TriggersDatabaseMail events,
@@ -48,10 +46,16 @@ return [
     'register_event_listener' => true,
 
     /**
+     * Period of time when mail exceptions are pruned.
+     */
+    'prune_exceptions_period' => now()->subMonth(),
+
+    /**
      * Models that are used by Laravel Database Mail.
      */
     'models' => [
         'mail_template' => \MartinPetricko\LaravelDatabaseMail\Models\MailTemplate::class,
+        'mail_exception' => \MartinPetricko\LaravelDatabaseMail\Models\MailException::class,
     ],
 
     /**
@@ -61,8 +65,8 @@ return [
 
     /**
      * Resolvers are used to automatically resolve properties of the event.
-     * This structured list of properties can be later shown to user
-     * as available variables that can be used in the mail template.
+     * This property definitions can be later shown to user as available
+     * variables that can be used in the mail template.
      */
     'resolvers' => [
         \MartinPetricko\LaravelDatabaseMail\Properties\Resolvers\EloquentResolver::class,
@@ -71,14 +75,40 @@ return [
     ],
 
     /**
-     * Resolvers are used to automatically resolve properties of the event.
-     * This property definitions can be later shown to user as available
-     * variables that can be used in the mail template.
+     * Register events that implement TriggersDatabaseMail interface.
+     * Events will be used to trigger the mail and this list
+     * of events can be shown to user as available events.
      */
     'events' => [
         // \Illuminate\Auth\Events\Registered::class,
     ],
 ];
+```
+
+Register excepitons reporting in `bootstrap/app.php`:
+
+```php
+use Illuminate\Foundation\Configuration\Exceptions;
+use MartinPetricko\LaravelDatabaseMail\Exceptions\DatabaseMailException;
+use MartinPetricko\LaravelDatabaseMail\Facades\LaravelDatabaseMail;
+
+//...
+
+->withExceptions(function (Exceptions $exceptions) {
+    $exceptions->report(function (DatabaseMailException $e) {
+        LaravelDatabaseMail::logException($e);
+    });
+})
+```
+
+Enable exceptions table pruning:
+
+```php
+Schedule::command('model:prune', [
+    '--model' => [
+        MartinPetricko\LaravelDatabaseMail\Models\MailException::class,
+    ],
+])->daily();
 ```
 
 ## Usage

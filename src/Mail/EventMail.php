@@ -13,7 +13,9 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Blade;
 use MartinPetricko\LaravelDatabaseMail\Events\Contracts\TriggersDatabaseMail;
+use MartinPetricko\LaravelDatabaseMail\Exceptions\DatabaseMailException;
 use MartinPetricko\LaravelDatabaseMail\Models\MailTemplate;
+use Throwable;
 
 class EventMail extends Mailable implements ShouldQueue
 {
@@ -27,16 +29,24 @@ class EventMail extends Mailable implements ShouldQueue
 
     public function envelope(): Envelope
     {
-        return new Envelope(
-            subject: Blade::render($this->mailTemplate->subject, $this->event->getAttributes()),
-        );
+        try {
+            return new Envelope(
+                subject: Blade::render($this->mailTemplate->subject, $this->event->getAttributes()),
+            );
+        } catch (Throwable $e) {
+            throw new DatabaseMailException($this->mailTemplate, $this->event, $e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     public function content(): Content
     {
-        return new Content(
-            htmlString: Blade::render($this->mailTemplate->body, $this->event->getAttributes()),
-        );
+        try {
+            return new Content(
+                htmlString: Blade::render($this->mailTemplate->body, $this->event->getAttributes()),
+            );
+        } catch (Throwable $e) {
+            throw new DatabaseMailException($this->mailTemplate, $this->event, $e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /** @return array<Attachment> */
