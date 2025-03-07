@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MartinPetricko\LaravelDatabaseMail\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
@@ -36,4 +37,12 @@ class MailException extends Model
     protected $casts = [
         'data' => 'array',
     ];
+
+    /** @return BelongsTo<MailTemplate, $this> */
+    public function template(): BelongsTo
+    {
+        return $this->belongsTo(MailTemplate::class);
+    }
+
+    //TODO: add prunning
 }

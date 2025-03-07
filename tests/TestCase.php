@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace MartinPetricko\LaravelDatabaseMail\Tests;
 
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Exceptions;
 use Illuminate\Support\Facades\Schema;
+use MartinPetricko\LaravelDatabaseMail\Exceptions\DatabaseMailException;
+use MartinPetricko\LaravelDatabaseMail\Facades\LaravelDatabaseMail;
 use MartinPetricko\LaravelDatabaseMail\LaraveDatabaseMailEventServiceProvider;
 use MartinPetricko\LaravelDatabaseMail\LaravelDatabaseMailServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -17,6 +20,10 @@ class TestCase extends Orchestra
         parent::setUp();
 
         $this->setUpDatabase();
+
+        Exceptions::reportable(function (DatabaseMailException $e) {
+            LaravelDatabaseMail::logException($e);
+        });
     }
 
     protected function getPackageProviders($app): array

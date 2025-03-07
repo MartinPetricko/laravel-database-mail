@@ -23,7 +23,7 @@ use MartinPetricko\LaravelDatabaseMail\Facades\LaravelDatabaseMail;
  * @property bool $is_active
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property Collection<MailException> $exceptions
+ * @property Collection<int, MailException> $exceptions
  */
 class MailTemplate extends Model
 {
