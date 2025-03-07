@@ -27,6 +27,8 @@ class MailException extends Model
 {
     use MassPrunable;
 
+    public const EXCEPTION_PREVIEW_PADDING = 5;
+
     protected $fillable = [
         'mail_template_id',
         'data',
@@ -36,11 +38,29 @@ class MailException extends Model
         'file',
         'line',
         'trace',
+        'preview',
     ];
 
     protected $casts = [
         'data' => 'array',
+        'preview' => 'array',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(static function (self $exception) {
+            if (!is_readable($exception->file)) {
+                $exception->preview = [];
+                return;
+            }
+
+            $lines = file($exception->file);
+            $start = max(0, $exception->line - self::EXCEPTION_PREVIEW_PADDING - 1);
+            $end = min(count($lines) - 1, $exception->line + self::EXCEPTION_PREVIEW_PADDING - 1);
+
+            $exception->preview = array_intersect_key($lines, array_flip(range($start, $end)));
+        });
+    }
 
     /** @return BelongsTo<MailTemplate, $this> */
     public function template(): BelongsTo

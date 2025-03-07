@@ -19,6 +19,7 @@ return new class () extends Migration {
             $table->text('message');
             $table->string('file');
             $table->integer('line');
+            $table->json('preview');
             $table->text('trace');
             $table->timestamps();
         });
