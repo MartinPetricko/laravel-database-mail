@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MartinPetricko\LaravelDatabaseMail\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -50,5 +51,19 @@ class MailTemplate extends Model
     public function exceptions(): HasMany
     {
         return $this->hasMany(LaravelDatabaseMail::getMailExceptionModel());
+    }
+
+    protected function subject(): Attribute
+    {
+        return Attribute::make(
+            set: static fn (string $value): string => html_entity_decode($value),
+        );
+    }
+
+    protected function body(): Attribute
+    {
+        return Attribute::make(
+            set: static fn (string $value): string => html_entity_decode($value),
+        );
     }
 }
