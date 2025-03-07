@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\File;
 
 /**
  * @property int $id
@@ -54,11 +55,15 @@ class MailException extends Model
                 return;
             }
 
-            $lines = file($exception->file);
-            $start = max(0, $exception->line - self::EXCEPTION_PREVIEW_PADDING - 1);
-            $end = min(count($lines) - 1, $exception->line + self::EXCEPTION_PREVIEW_PADDING - 1);
+            $lines = File::lines($exception->file);
 
-            $exception->preview = array_intersect_key($lines, array_flip(range($start, $end)));
+            /** @var array<int> $range */
+            $range = range(
+                max(0, $exception->line - self::EXCEPTION_PREVIEW_PADDING - 1),
+                min($lines->count() - 1, $exception->line + self::EXCEPTION_PREVIEW_PADDING - 1)
+            );
+
+            $exception->preview = $lines->only($range)->all();
         });
     }
 
