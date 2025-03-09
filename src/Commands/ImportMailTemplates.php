@@ -8,6 +8,7 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\File;
 use MartinPetricko\LaravelDatabaseMail\Facades\LaravelDatabaseMail;
+
 use function Laravel\Prompts\multiselect;
 
 class ImportMailTemplates extends Command

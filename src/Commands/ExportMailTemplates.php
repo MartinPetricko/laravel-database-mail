@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use JsonException;
 use MartinPetricko\LaravelDatabaseMail\Facades\LaravelDatabaseMail;
-
 use MartinPetricko\LaravelDatabaseMail\Models\MailTemplate;
+
 use function Laravel\Prompts\multisearch;
 
 class ExportMailTemplates extends Command
