@@ -11,8 +11,7 @@ out [FilamentPHP implementation](https://github.com/MartinPetricko/filament-data
 
 ## Support me
 
-[//]: # (TODO: add link to filament package)
-You can support me by [buying FilamentPHP implementation of this package](https://filamentphp.com/plugins).
+You can support me by [buying FilamentPHP implementation of this package](https://filamentphp.com/plugins/martin-petricko-database-mail).
 
 ## Installation
 
@@ -269,7 +268,7 @@ use MartinPetricko\LaravelDatabaseMail\Facades\LaravelDatabaseMail;
 LaravelDatabaseMail::getEventAttributes(\App\Events\Registered::class);
 ```
 
-### Export/Import Mail Templates
+### Import/Export Mail Templates
 
 You can prepare your mail templates before deploying your application to production. And then import them in your
 seeders.
