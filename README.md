@@ -269,6 +269,41 @@ use MartinPetricko\LaravelDatabaseMail\Facades\LaravelDatabaseMail;
 LaravelDatabaseMail::getEventAttributes(\App\Events\Registered::class);
 ```
 
+### Export/Import Mail Templates
+
+You can prepare your mail templates before deploying your application to production. And then import them in your
+seeders.
+
+#### Export Mail Templates
+
+```bash
+php artisan mail:export
+```
+
+#### Import Mail Templates
+
+```bash
+php artisan mail:import
+```
+
+#### Seeder Setup
+
+```php
+use Illuminate\Support\Facades\Artisan;
+
+public function run(): void
+{
+    /**
+     * Import all mail templates from json files and replace localhost url with production url. 
+     */
+    Artisan::call('mail:import', [
+        '--all' => true,
+        '--search' => 'http:\/\/localhost',
+        '--replace' => config('app.url'),
+    ]);
+}
+```
+
 ## Testing
 
 ```bash
