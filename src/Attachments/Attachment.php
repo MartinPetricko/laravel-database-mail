@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinPetricko\LaravelDatabaseMail\Attachments;
 
 use Closure;
-use Illuminate\Mail\Mailables\Attachment as LaravelAttachment;
+use Illuminate\Mail\Attachment as LaravelAttachment;
 use Illuminate\Support\Facades\App;
 use MartinPetricko\LaravelDatabaseMail\Events\Contracts\TriggersDatabaseMail;
 
