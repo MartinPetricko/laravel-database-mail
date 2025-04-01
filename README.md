@@ -5,13 +5,16 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/martinpetricko/laravel-database-mail/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/martinpetricko/laravel-database-mail/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/martinpetricko/laravel-database-mail.svg?style=flat-square)](https://packagist.org/packages/martinpetricko/laravel-database-mail)
 
-This package allows you to store email templates in your database, assign them to events and send them when the event is
-fired. For implementation of this package check
+Laravel Database Mail lets you store email templates in your database, link them to events, and automatically send them
+when those events are dispatched.
+
+For implementation of this package check
 out [FilamentPHP implementation](https://github.com/MartinPetricko/filament-database-mail-docs).
 
 ## Support me
 
-You can support me by [buying FilamentPHP implementation of this package](https://filamentphp.com/plugins/martin-petricko-database-mail).
+You can support me
+by [buying FilamentPHP implementation of this package](https://filamentphp.com/plugins/martin-petricko-database-mail).
 
 ## Installation
 
@@ -34,7 +37,7 @@ Publish the config file with:
 php artisan vendor:publish --tag="database-mail-config"
 ```
 
-This is the contents of the published config file:
+These are the contents of the published config file:
 
 ```php
 return [
@@ -64,7 +67,7 @@ return [
 
     /**
      * Resolvers are used to automatically resolve properties of the event.
-     * This property definitions can be later shown to user as available
+     * These property definitions can be later shown to user as available
      * variables that can be used in the mail template.
      */
     'resolvers' => [
@@ -84,7 +87,7 @@ return [
 ];
 ```
 
-Register excepitons reporting in `bootstrap/app.php`:
+Register excepttons reporting in `bootstrap/app.php`:
 
 ```php
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -119,13 +122,7 @@ Add `TriggersDatabaseMail` interface and `CanTriggerDatabaseMail` trait to your 
 ```php
 namespace App\Events;
 
-use App\Models\User;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use MartinPetricko\LaravelDatabaseMail\Attachments\Attachment;
-use MartinPetricko\LaravelDatabaseMail\Events\Concerns\CanTriggerDatabaseMail;
-use MartinPetricko\LaravelDatabaseMail\Events\Contracts\TriggersDatabaseMail;
-use MartinPetricko\LaravelDatabaseMail\Recipients\Recipient;
+use App\Models\User;use Illuminate\Foundation\Events\Dispatchable;use Illuminate\Queue\SerializesModels;use MartinPetricko\LaravelDatabaseMail\Attachments\Attachment;use MartinPetricko\LaravelDatabaseMail\Events\Concerns\CanTriggerDatabaseMail;use MartinPetricko\LaravelDatabaseMail\Events\Contracts\TriggersDatabaseMail;use MartinPetricko\LaravelDatabaseMail\Recipients\Recipient;
 
 class Registered implements TriggersDatabaseMail
 {
@@ -159,31 +156,33 @@ class Registered implements TriggersDatabaseMail
     }
 
     /**
-     * List of possible recipients that can receive the mail.
-     * MailTemplate stores keys of recipients that will
-     * receive the mail when event is fired.
+     * List of possible recipients that can receive the email.
+     * MailTemplate stores recipient keys that will
+     * receive the email when event is triggered.
      *
-     * @return array<string, Recipient>
+     * @return Recipient<Registered>[]
      */
     public static function getRecipients(): array
     {
         return [
-            'user' => new Recipient('Registered User', fn (Registered $event) => $event->user),
+            'user' => new Recipient('Registered User', fn (Registered $event) => [
+                $event->user,
+            ]),
         ];
     }
 
     /**
-     * List of possible attachments that can be attached to the mail.
-     * MailTemplate stores keys of attachments that will be
-     * attached to the mail when event is fired.
+     * List of possible attachments that can be attached to the email.
+     * MailTemplate stores attachment keys that will be attached 
+     * to the email when the event is triggered.
      *
-     * @return array<string, Attachment>
+     * @return Attachment<Registered>[]
      */
     public static function getAttachments(): array
     {
         return [
             'terms-of-service' => new Attachment('Terms of Services', fn (Registered $event) => [
-                \Illuminate\Mail\Mailables\Attachment::fromUrl('https://my-project.com/tos')->as('tos.pdf')
+                \Illuminate\Mail\Attachment::fromUrl('https://my-project.com/tos')->as('tos.pdf'),
             ]),
         ];
     }
@@ -192,7 +191,7 @@ class Registered implements TriggersDatabaseMail
 
 ### Register Events
 
-Add list of events to your published `config/database-mail.php` file:
+Add a list of events to your published `config/database-mail.php` file:
 
 ```php
 'events' => [
@@ -213,22 +212,22 @@ $mailTemplate->name = 'Verify Email Address';
 // The event that triggers the mail
 $mailTemplate->event = \App\Events\Registered::class;
 
-// The subject of the mail rendered with blade
+// The subject of the email, rendered with blade
 $mailTemplate->subject = 'Welcome {{ $user->name }}';
 
-// The body of the mail rendered with blade
+// The body of the email, rendered with blade
 $mailTemplate->body = <<<HTML
     <h1>Welcome {{ \$user->name }}</h1>
     <p>Please verify your email address by clicking <a href="{{ \$emailVerificationUrl }}">Here</a></p>
 HTML;
 
-// Keys of the recipients from event defined recipients that will receive the mail
+// Keys of the recipients, defined in the event, that will receive the email
 $mailTemplate->recipients = ['user'];
 
-// Keys of the attachments from event defined attachments that will be attache to the mail
+// Keys of the attachments, defined in the event, that will be attached to the email
 $mailTemplate->attachments = ['terms-of-service'];
 
-// Optionaly you can set delay for how long should mail be sent after event was fired
+// Optionally, you can set a delay for how long the mail should be sent after the event is fired
 $mailTemplate->delay = '1 day 5 hours';
 
 // Determines if mail is sent when event is fired
@@ -239,7 +238,7 @@ $mailTemplate->save();
 
 ### Dispatch Event
 
-Dispatch event as you would any other laravel event with it's parameters.
+Dispatch the event as you would any other Laravel event with its parameters.
 
 ```php
 use App\Events\Registered;
@@ -270,7 +269,7 @@ LaravelDatabaseMail::getEventAttributes(\App\Events\Registered::class);
 
 ### Import/Export Mail Templates
 
-You can prepare your mail templates before deploying your application to production. And then import them in your
+You can prepare your mail templates before deploying your application to production and then import them in your
 seeders.
 
 #### Export Mail Templates

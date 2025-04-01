@@ -21,18 +21,18 @@ interface TriggersDatabaseMail
     public static function getDescription(): ?string;
 
     /**
-     * List of possible recipients that can receive the mail.
-     * MailTemplate stores keys of recipients that will
-     * receive the mail when event is fired.
+     * List of possible recipients that can receive the email.
+     * MailTemplate stores recipient keys that will
+     * receive the email when event is triggered.
      *
      * @return array<string, Recipient<$this>>
      */
     public static function getRecipients(): array;
 
     /**
-     * List of possible attachments that can be attached to the mail.
-     * MailTemplate stores keys of attachments that will be
-     * attached to the mail when event is fired.
+     * List of possible attachments that can be attached to the email.
+     * MailTemplate stores attachment keys that will be attached
+     * to the email when the event is triggered.
      *
      * @return array<string, Attachment<$this>>
      */

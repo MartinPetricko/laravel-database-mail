@@ -32,7 +32,7 @@ return [
 
     /**
      * Resolvers are used to automatically resolve properties of the event.
-     * This property definitions can be later shown to user as available
+     * These property definitions can be later shown to user as available
      * variables that can be used in the mail template.
      */
     'resolvers' => [

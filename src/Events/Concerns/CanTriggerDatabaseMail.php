@@ -19,7 +19,7 @@ trait CanTriggerDatabaseMail
         return null;
     }
 
-    /** @return array<string, Attachment> */
+    /** @return array<string, Attachment<$this>> */
     public static function getAttachments(): array
     {
         return [];
