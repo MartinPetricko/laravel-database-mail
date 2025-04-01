@@ -87,7 +87,7 @@ return [
 ];
 ```
 
-Register excepttons reporting in `bootstrap/app.php`:
+Register exceptions reporting in `bootstrap/app.php`:
 
 ```php
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -122,7 +122,13 @@ Add `TriggersDatabaseMail` interface and `CanTriggerDatabaseMail` trait to your 
 ```php
 namespace App\Events;
 
-use App\Models\User;use Illuminate\Foundation\Events\Dispatchable;use Illuminate\Queue\SerializesModels;use MartinPetricko\LaravelDatabaseMail\Attachments\Attachment;use MartinPetricko\LaravelDatabaseMail\Events\Concerns\CanTriggerDatabaseMail;use MartinPetricko\LaravelDatabaseMail\Events\Contracts\TriggersDatabaseMail;use MartinPetricko\LaravelDatabaseMail\Recipients\Recipient;
+use App\Models\User;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+use MartinPetricko\LaravelDatabaseMail\Attachments\Attachment;
+use MartinPetricko\LaravelDatabaseMail\Events\Concerns\CanTriggerDatabaseMail;
+use MartinPetricko\LaravelDatabaseMail\Events\Contracts\TriggersDatabaseMail;
+use MartinPetricko\LaravelDatabaseMail\Recipients\Recipient;
 
 class Registered implements TriggersDatabaseMail
 {
