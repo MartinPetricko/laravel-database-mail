@@ -47,6 +47,6 @@ return [
      * of events can be shown to user as available events.
      */
     'events' => [
-        // \Illuminate\Auth\Events\Registered::class,
+        // \App\Events\YourEvent::class
     ],
 ];

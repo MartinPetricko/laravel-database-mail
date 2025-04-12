@@ -82,7 +82,7 @@ return [
      * of events can be shown to user as available events.
      */
     'events' => [
-        // \Illuminate\Auth\Events\Registered::class,
+        // \App\Events\YourEvent::class
     ],
 ];
 ```
@@ -117,7 +117,7 @@ Schedule::command('model:prune', [
 
 ### Create Events
 
-Add `TriggersDatabaseMail` interface and `CanTriggerDatabaseMail` trait to your standard laravel events.
+Add `TriggersDatabaseMail` interface and `CanTriggerDatabaseMail` trait to your standard [laravel events](https://laravel.com/docs/master/events).
 
 ```php
 namespace App\Events;
@@ -244,7 +244,7 @@ $mailTemplate->save();
 
 ### Dispatch Event
 
-Dispatch the event as you would any other Laravel event with its parameters.
+Dispatch the event as you would any other [Laravel event](https://laravel.com/docs/master/events#dispatching-events) with its parameters.
 
 ```php
 use App\Events\Registered;

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.2] - 2025-04-12
+### Fixed
+- Fix missleading event example in config
+
 ## [1.2.1] - 2025-03-31
 ### Fixed
 - Changed attachment type to base laravel Attachment class
@@ -30,7 +34,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added initial version of Laravel Database Mail
 
-[unreleased]: https://github.com/martinpetricko/laravel-database-mail/compare/1.2.1...HEAD
+[unreleased]: https://github.com/martinpetricko/laravel-database-mail/compare/1.2.2...HEAD
+[1.2.2]: https://github.com/martinpetricko/laravel-database-mail/compare/1.2.1...1.2.2
 [1.2.1]: https://github.com/martinpetricko/laravel-database-mail/compare/1.2.0...1.2.1
 [1.2.0]: https://github.com/martinpetricko/laravel-database-mail/compare/1.1.1...1.2.0
 [1.1.1]: https://github.com/martinpetricko/laravel-database-mail/compare/1.1.0...1.1.1
