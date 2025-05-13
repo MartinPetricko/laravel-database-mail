@@ -8,7 +8,6 @@ use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Type;
-use phpDocumentor\Reflection\Types\Collection;
 use ReflectionProperty;
 
 class ReflectionType
@@ -27,15 +26,13 @@ class ReflectionType
 
         $docBlock = DocBlockFactory::createInstance()->create($docBlock);
 
-        $type = null;
         if ($reflectionProperty->isPromoted()) {
             /** @var Param $tag */
             foreach ($docBlock->getTagsWithTypeByName('param') as $tag) {
                 if ($tag->getVariableName() !== $reflectionProperty->getName()) {
                     continue;
                 }
-                /** @var Collection $type */
-                $type = $tag->getType();
+                return $tag->getType();
             }
         } else {
             /** @var Var_ $tag */
@@ -49,11 +46,10 @@ class ReflectionType
                     continue;
                 }
 
-                /** @var Collection $type */
-                $type = $tag->getType();
+                return $tag->getType();
             }
         }
 
-        return $type;
+        return null;
     }
 }
