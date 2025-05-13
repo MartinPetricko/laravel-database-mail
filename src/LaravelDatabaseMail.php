@@ -6,12 +6,13 @@ namespace MartinPetricko\LaravelDatabaseMail;
 
 use MartinPetricko\LaravelDatabaseMail\Events\Contracts\TriggersDatabaseMail;
 use MartinPetricko\LaravelDatabaseMail\Exceptions\DatabaseMailException;
+use MartinPetricko\LaravelDatabaseMail\Exceptions\SubtypeResolverNotFound;
 use MartinPetricko\LaravelDatabaseMail\Mail\EventMail;
 use MartinPetricko\LaravelDatabaseMail\Models\MailException;
 use MartinPetricko\LaravelDatabaseMail\Models\MailTemplate;
 use MartinPetricko\LaravelDatabaseMail\Properties\Property;
-use MartinPetricko\LaravelDatabaseMail\Properties\Resolvers\SubtypeResolverInterface;
 use MartinPetricko\LaravelDatabaseMail\Properties\Resolvers\ResolverInterface;
+use MartinPetricko\LaravelDatabaseMail\Properties\Resolvers\SubtypeResolverInterface;
 use phpDocumentor\Reflection\Type;
 use ReflectionClass;
 use ReflectionException;
@@ -100,15 +101,16 @@ class LaravelDatabaseMail
     }
 
     /**
-     * @return ?array<Property>
+     * @return array<Property>
+     * @throws SubtypeResolverNotFound
      */
-    public function resolveSubProperty(ReflectionProperty $property, Type $type): ?array
+    public function resolveSubProperty(ReflectionProperty $property, Type $type): array
     {
         foreach ($this->getResolvers() as $resolver) {
             if (is_subclass_of($resolver, SubtypeResolverInterface::class) && $resolver::canResolveSubtype($property, $type)) {
                 return $resolver::resolveSubtype($property, $type);
             }
         }
-        return null;
+        throw new SubtypeResolverNotFound();
     }
 }

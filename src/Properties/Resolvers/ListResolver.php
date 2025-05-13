@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace MartinPetricko\LaravelDatabaseMail\Properties\Resolvers;
 
+use MartinPetricko\LaravelDatabaseMail\Exceptions\SubtypeResolverNotFound;
 use MartinPetricko\LaravelDatabaseMail\Facades\LaravelDatabaseMail;
 use MartinPetricko\LaravelDatabaseMail\Properties\Property;
 use MartinPetricko\LaravelDatabaseMail\Utils\ReflectionType;
 use phpDocumentor\Reflection\Types\AbstractList;
 use phpDocumentor\Reflection\Types\Nullable;
-use ReflectionNamedType;
 use ReflectionProperty;
 use RuntimeException;
 
@@ -17,18 +17,13 @@ class ListResolver implements ResolverInterface
 {
     public static function canResolve(ReflectionProperty $reflectionProperty): bool
     {
-        $reflectionPropertyType = $reflectionProperty->getType();
-        if (!$reflectionPropertyType instanceof ReflectionNamedType) {
-            return false;
-        }
-
         return ReflectionType::getPropertyType($reflectionProperty) instanceof AbstractList;
     }
 
     public static function resolve(ReflectionProperty $reflectionProperty): Property
     {
         $reflectionPropertyType = $reflectionProperty->getType();
-        if (!$reflectionPropertyType instanceof ReflectionNamedType) {
+        if ($reflectionPropertyType === null) {
             throw new RuntimeException('Invalid reflection property type');
         }
 
@@ -41,21 +36,20 @@ class ListResolver implements ResolverInterface
             ->nullable($reflectionPropertyType->allowsNull())
             ->traversable();
 
-        $properties = static::getSubProperties($reflectionProperty, $type);
-
-        if ($properties === null) {
+        try {
+            $property->properties(static::getSubProperties($reflectionProperty, $type));
+        } catch (SubtypeResolverNotFound) {
             $property->hidden();
-        } else {
-            $property->properties($properties);
         }
 
         return $property;
     }
 
     /**
-     * @return ?array<Property>
+     * @return array<Property>
+     * @throws SubtypeResolverNotFound
      */
-    protected static function getSubProperties(ReflectionProperty $reflectionProperty, AbstractList $type): ?array
+    protected static function getSubProperties(ReflectionProperty $reflectionProperty, AbstractList $type): array
     {
         $valueType = $type->getValueType();
         if ($valueType instanceof Nullable) {
