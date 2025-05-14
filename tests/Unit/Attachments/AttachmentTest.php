@@ -18,7 +18,7 @@ it('can resolve attachment', function () {
 
     $attachment = new Attachment('Test Attachment', fn () => $mailAttachment);
 
-    expect($attachment->getAttachment(new Registered(User::make())))
+    expect($attachment->getAttachment(new Registered(User::make(), [User::make()])))
         ->toBeArray()
         ->toHaveLength(1)
         ->toContainEqual($mailAttachment);
@@ -33,7 +33,7 @@ it('can resolve attachments from array', function () {
         $secondMailAttachment,
     ]);
 
-    expect($attachment->getAttachment(new Registered(User::make())))
+    expect($attachment->getAttachment(new Registered(User::make(), [User::make()])))
         ->toBeArray()
         ->toHaveLength(2)
         ->toContainEqual($firstMailAttachment)

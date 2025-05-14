@@ -8,6 +8,8 @@ class Property
 {
     protected string $name;
 
+    protected bool $isHidden = false;
+
     protected bool $isNullable = false;
 
     protected bool $isBoolean = false;
@@ -33,6 +35,17 @@ class Property
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function hidden(bool $isHidden = true): static
+    {
+        $this->isHidden = $isHidden;
+        return $this;
+    }
+
+    public function isHidden(): bool
+    {
+        return $this->isHidden;
     }
 
     public function nullable(bool $isNullable = true): static

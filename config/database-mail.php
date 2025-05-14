@@ -39,6 +39,7 @@ return [
         \MartinPetricko\LaravelDatabaseMail\Properties\Resolvers\EloquentResolver::class,
         \MartinPetricko\LaravelDatabaseMail\Properties\Resolvers\BooleanResolver::class,
         \MartinPetricko\LaravelDatabaseMail\Properties\Resolvers\StringResolver::class,
+        \MartinPetricko\LaravelDatabaseMail\Properties\Resolvers\ListResolver::class,
     ],
 
     /**
