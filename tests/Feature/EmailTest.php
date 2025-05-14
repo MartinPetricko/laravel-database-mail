@@ -38,7 +38,7 @@ it('can send mail after event was fired', function () {
         'is_active' => true,
     ]);
 
-    Registered::dispatch($this->user);
+    Registered::dispatch($this->user, [User::make()]);
 
     Mail::assertQueued(EventMail::class, function (EventMail $mail) {
         return $mail
@@ -67,7 +67,7 @@ it('can create mail exception', function () {
         'is_active' => true,
     ]);
 
-    Registered::dispatch($this->user);
+    Registered::dispatch($this->user, [User::make()]);
 
 
     Mail::assertQueued(EventMail::class, function (EventMail $mail) {

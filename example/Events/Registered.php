@@ -21,9 +21,10 @@ class Registered implements TriggersDatabaseMail
     use CanTriggerDatabaseMail;
 
     /**
+     * @param array<User> $users
      * @param array<string, string>|null $additionalData
      */
-    public function __construct(public User $user, public ?array $additionalData = null)
+    public function __construct(public User $user, public array $users, public ?array $additionalData = null)
     {
         //
     }
