@@ -38,8 +38,7 @@ class ReflectionType
             /** @var Var_ $tag */
             foreach ($docBlock->getTagsWithTypeByName('var') as $tag) {
                 if (empty($tag->getVariableName())) {
-                    $type = $tag->getType();
-                    break;
+                    return $tag->getType();
                 }
 
                 if ($tag->getVariableName() !== $reflectionProperty->getName()) {
