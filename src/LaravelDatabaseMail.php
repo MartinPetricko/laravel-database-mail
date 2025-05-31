@@ -6,11 +6,14 @@ namespace MartinPetricko\LaravelDatabaseMail;
 
 use MartinPetricko\LaravelDatabaseMail\Events\Contracts\TriggersDatabaseMail;
 use MartinPetricko\LaravelDatabaseMail\Exceptions\DatabaseMailException;
+use MartinPetricko\LaravelDatabaseMail\Exceptions\SubtypeResolverNotFound;
 use MartinPetricko\LaravelDatabaseMail\Mail\EventMail;
 use MartinPetricko\LaravelDatabaseMail\Models\MailException;
 use MartinPetricko\LaravelDatabaseMail\Models\MailTemplate;
 use MartinPetricko\LaravelDatabaseMail\Properties\Property;
 use MartinPetricko\LaravelDatabaseMail\Properties\Resolvers\ResolverInterface;
+use MartinPetricko\LaravelDatabaseMail\Properties\Resolvers\SubtypeResolverInterface;
+use phpDocumentor\Reflection\Type;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
@@ -49,10 +52,10 @@ class LaravelDatabaseMail
         return $events;
     }
 
-    /** @return class-string<ResolverInterface>[] */
+    /** @return class-string[] */
     public function getResolvers(): array
     {
-        /** @var class-string<ResolverInterface>[] $resolvers */
+        /** @var class-string[] $resolvers */
         $resolvers = config('database-mail.resolvers');
         return $resolvers;
     }
@@ -89,10 +92,25 @@ class LaravelDatabaseMail
     public function resolveProperty(ReflectionProperty $property): ?Property
     {
         foreach ($this->getResolvers() as $resolver) {
-            if ($resolver::canResolve($property)) {
+            if (is_subclass_of($resolver, ResolverInterface::class) && $resolver::canResolve($property)) {
                 return $resolver::resolve($property);
             }
         }
-        return null;
+        return (new Property($property->getName()))
+            ->hidden();
+    }
+
+    /**
+     * @return array<Property>
+     * @throws SubtypeResolverNotFound
+     */
+    public function resolveSubProperty(ReflectionProperty $property, Type $type): array
+    {
+        foreach ($this->getResolvers() as $resolver) {
+            if (is_subclass_of($resolver, SubtypeResolverInterface::class) && $resolver::canResolveSubtype($property, $type)) {
+                return $resolver::resolveSubtype($property, $type);
+            }
+        }
+        throw new SubtypeResolverNotFound();
     }
 }

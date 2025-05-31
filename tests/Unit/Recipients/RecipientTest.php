@@ -23,7 +23,7 @@ it('can return recipient name', function () {
 it('can resolve recipient', function () {
     $recipient = new Recipient('Registered User', fn (Registered $event) => $event->user);
 
-    expect($recipient->getRecipient(new Registered($this->user)))
+    expect($recipient->getRecipient(new Registered($this->user, [User::make()])))
         ->toBeArray()
         ->toHaveLength(1)
         ->toContainEqual($this->user);
@@ -37,7 +37,7 @@ it('can resolve recipients from array', function () {
         $secondUser,
     ]);
 
-    expect($recipient->getRecipient(new Registered($this->user)))
+    expect($recipient->getRecipient(new Registered($this->user, [User::make()])))
         ->toBeArray()
         ->toHaveLength(2)
         ->toContainEqual($this->user)

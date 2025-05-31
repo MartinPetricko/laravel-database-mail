@@ -74,6 +74,7 @@ return [
         \MartinPetricko\LaravelDatabaseMail\Properties\Resolvers\EloquentResolver::class,
         \MartinPetricko\LaravelDatabaseMail\Properties\Resolvers\BooleanResolver::class,
         \MartinPetricko\LaravelDatabaseMail\Properties\Resolvers\StringResolver::class,
+        \MartinPetricko\LaravelDatabaseMail\Properties\Resolvers\ListResolver::class,
     ],
 
     /**
@@ -139,8 +140,10 @@ class Registered implements TriggersDatabaseMail
     /**
      * All public properties of the event will be passed 
      * to the mail template body and subject.
+     * 
+     * @param array<User> $users
      */
-    public function __construct(public User $user, public string $emailVerificationUrl)
+    public function __construct(public User $user, public array $users, public string $emailVerificationUrl)
     {
         //
     }
