@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2025-05-31
+### Added
+- Added a ListResolver that can resolve arrayable event properties with generics defined
+
 ## [1.2.2] - 2025-04-12
 ### Fixed
 - Fix missleading event example in config
@@ -34,7 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added initial version of Laravel Database Mail
 
-[unreleased]: https://github.com/martinpetricko/laravel-database-mail/compare/1.2.2...HEAD
+[unreleased]: https://github.com/martinpetricko/laravel-database-mail/compare/1.3.0...HEAD
+[1.3.0]: https://github.com/martinpetricko/laravel-database-mail/compare/1.2.2...1.3.0
 [1.2.2]: https://github.com/martinpetricko/laravel-database-mail/compare/1.2.1...1.2.2
 [1.2.1]: https://github.com/martinpetricko/laravel-database-mail/compare/1.2.0...1.2.1
 [1.2.0]: https://github.com/martinpetricko/laravel-database-mail/compare/1.1.1...1.2.0
