@@ -17,6 +17,7 @@ use phpDocumentor\Reflection\Type;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
+use Throwable;
 
 class LaravelDatabaseMail
 {
@@ -93,7 +94,11 @@ class LaravelDatabaseMail
     {
         foreach ($this->getResolvers() as $resolver) {
             if (is_subclass_of($resolver, ResolverInterface::class) && $resolver::canResolve($property)) {
-                return $resolver::resolve($property);
+                try {
+                    return $resolver::resolve($property);
+                } catch (Throwable) {
+                    continue;
+                }
             }
         }
         return (new Property($property->getName()))
