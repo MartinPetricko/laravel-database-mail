@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace MartinPetricko\LaravelDatabaseMail\Events\Contracts;
 
+use Illuminate\Mail\Events\MessageSent;
 use MartinPetricko\LaravelDatabaseMail\Attachments\Attachment;
 use MartinPetricko\LaravelDatabaseMail\Properties\Property;
 use MartinPetricko\LaravelDatabaseMail\Recipients\Recipient;
+use Throwable;
 
 interface TriggersDatabaseMail
 {
@@ -52,4 +54,8 @@ interface TriggersDatabaseMail
      * @return array<string, mixed>
      */
     public function getAttributes(): array;
+
+    public function onSuccess(MessageSent $messageSent): void;
+
+    public function onFailure(Throwable $exception): void;
 }

@@ -58,4 +58,9 @@ class EventMail extends Mailable implements ShouldQueue
         }
         return array_merge(...$attachments);
     }
+
+    public function failed(Throwable $exception): void
+    {
+        $this->event->onFailure($exception);
+    }
 }
