@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/martinpetricko/laravel-database-mail/compare/1.3.1...HEAD)
 
+## [1.4.0] - 2025-12-11
+### Added
+- Added onSuccess and onFailure callbacs to mail events
+
 ## [1.3.1] - 2025-12-10
 
 ### Fixed
@@ -58,14 +62,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added initial version of Laravel Database Mail
 
-## [1.3.1](https://github.com/martinpetricko/laravel-database-mail/compare/1.3.1...1.3.1) - 2025-12-10
-
-### What's Changed
-
-* Bump aglipanci/laravel-pint-action from 2.5 to 2.6 by @dependabot[bot] in https://github.com/MartinPetricko/laravel-database-mail/pull/11
-
-#### Fixed
-
-- Skip property resolving on thrown exception
-
-**Full Changelog**: https://github.com/MartinPetricko/laravel-database-mail/compare/1.3.0...1.3.1
+[unreleased]: https://github.com/martinpetricko/laravel-database-mail/compare/1.4.0...HEAD
+[1.4.0]: https://github.com/martinpetricko/laravel-database-mail/compare/1.3.1...1.4.0
+[1.3.1]: https://github.com/martinpetricko/laravel-database-mail/compare/1.3.0...1.3.1
+[1.3.0]: https://github.com/martinpetricko/laravel-database-mail/compare/1.2.2...1.3.0
+[1.2.2]: https://github.com/martinpetricko/laravel-database-mail/compare/1.2.1...1.2.2
+[1.2.1]: https://github.com/martinpetricko/laravel-database-mail/compare/1.2.0...1.2.1
+[1.2.0]: https://github.com/martinpetricko/laravel-database-mail/compare/1.1.1...1.2.0
+[1.1.1]: https://github.com/martinpetricko/laravel-database-mail/compare/1.1.0...1.1.1
+[1.1.0]: https://github.com/martinpetricko/laravel-database-mail/compare/1.0.0...1.1.0
+[1.0.0]: https://github.com/martinpetricko/laravel-database-mail/releases/tag/1.0.0
