@@ -16,6 +16,20 @@ out [FilamentPHP implementation](https://github.com/MartinPetricko/filament-data
 You can support me
 by [buying FilamentPHP implementation of this package](https://filamentphp.com/plugins/martin-petricko-database-mail).
 
+## Upgrading
+
+### 1.x to 2.x
+
+New migration was added that needs to be published and migrated
+
+```bash
+php artisan vendor:publish --tag=database-mail-migrations
+```
+
+```bash
+php artisan migrate
+```
+
 ## Installation
 
 You can install the package via composer:

@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Attachment;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -31,6 +32,7 @@ class EventMail extends Mailable implements ShouldQueue
     {
         try {
             return new Envelope(
+                from: $this->getFromAddress(),
                 subject: Blade::render($this->mailTemplate->subject, $this->event->getAttributes()),
             );
         } catch (Throwable $e) {
@@ -62,5 +64,17 @@ class EventMail extends Mailable implements ShouldQueue
     public function failed(Throwable $exception): void
     {
         $this->event->onFailure($exception);
+    }
+
+    protected function getFromAddress(): ?Address
+    {
+        if ($this->mailTemplate->from_email === null) {
+            return null;
+        }
+
+        return new Address(
+            address: Blade::render($this->mailTemplate->from_email, $this->event->getAttributes()),
+            name: Blade::render($this->mailTemplate->from_name, $this->event->getAttributes()),
+        );
     }
 }
