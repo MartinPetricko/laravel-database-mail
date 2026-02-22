@@ -17,7 +17,11 @@ class LaravelDatabaseMailServiceProvider extends PackageServiceProvider
             ->name('laravel-database-mail')
             ->hasConfigFile()
             ->hasCommands(ExportMailTemplates::class, ImportMailTemplates::class)
-            ->hasMigrations('create_mail_templates_table', 'create_mail_exceptions_table');
+            ->hasMigrations(
+                'create_mail_templates_table',
+                'create_mail_exceptions_table',
+                'add_from_to_mail_templates_table',
+            );
     }
 
     public function registeringPackage(): void

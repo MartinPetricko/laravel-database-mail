@@ -20,6 +20,8 @@ use MartinPetricko\LaravelDatabaseMail\Facades\LaravelDatabaseMail;
  * @property array<mixed> $meta
  * @property array<string> $recipients
  * @property array<string> $attachments
+ * @property ?string $from_name
+ * @property ?string $from_email
  * @property ?string $delay
  * @property bool $is_active
  * @property Carbon $created_at
@@ -36,6 +38,8 @@ class MailTemplate extends Model
         'meta',
         'recipients',
         'attachments',
+        'from_name',
+        'from_email',
         'delay',
         'is_active',
     ];

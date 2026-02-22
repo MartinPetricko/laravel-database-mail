@@ -29,7 +29,9 @@ class TestCase extends Orchestra
 
     protected function setUpDatabase(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations/create_mail_templates_table.php');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations/create_mail_exceptions_table.php');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations/add_from_to_mail_templates_table.php');
 
         Schema::create('users', function (Blueprint $table) {
             $table->id();
