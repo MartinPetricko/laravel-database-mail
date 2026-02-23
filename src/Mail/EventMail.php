@@ -72,8 +72,20 @@ class EventMail extends Mailable implements ShouldQueue
             return null;
         }
 
+        $fromEmail = Blade::render($this->mailTemplate->from_email, $this->event->getAttributes());
+
+        $validator = Validator::make([
+            'from_email' => $fromEmail,
+        ], [
+            'from_email' => ['required', 'email'],
+        ]);
+
+        if ($validator->fails()) {
+            return null;
+        }
+
         return new Address(
-            address: Blade::render($this->mailTemplate->from_email, $this->event->getAttributes()),
+            address: $fromEmail,
             name: $this->mailTemplate->from_name
                 ? Blade::render($this->mailTemplate->from_name, $this->event->getAttributes())
                 : null,
