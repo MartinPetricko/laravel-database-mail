@@ -69,9 +69,12 @@ class EventMail extends Mailable implements ShouldQueue
 
     protected function getFromAddress(): ?Address
     {
+        /** @var string $fromAddress */
         $fromAddress = $this->mailTemplate->from_email !== null
             ? Blade::render($this->mailTemplate->from_email, $this->event->getAttributes())
             : config('mail.from.address');
+
+        /** @var ?string $fromName */
         $fromName = $this->mailTemplate->from_name !== null
             ? Blade::render($this->mailTemplate->from_name, $this->event->getAttributes())
             : config('mail.from.name');
