@@ -69,14 +69,18 @@ class EventMail extends Mailable implements ShouldQueue
 
     protected function getFromAddress(): ?Address
     {
-        if ($this->mailTemplate->from_email === null) {
-            return null;
-        }
+        /** @var string $fromAddress */
+        $fromAddress = $this->mailTemplate->from_email !== null
+            ? Blade::render($this->mailTemplate->from_email, $this->event->getAttributes())
+            : config('mail.from.address');
 
-        $fromEmail = Blade::render($this->mailTemplate->from_email, $this->event->getAttributes());
+        /** @var ?string $fromName */
+        $fromName = $this->mailTemplate->from_name !== null
+            ? Blade::render($this->mailTemplate->from_name, $this->event->getAttributes())
+            : config('mail.from.name');
 
         $validator = Validator::make([
-            'from_email' => $fromEmail,
+            'from_email' => $fromAddress,
         ], [
             'from_email' => ['required', 'email'],
         ]);
@@ -86,10 +90,8 @@ class EventMail extends Mailable implements ShouldQueue
         }
 
         return new Address(
-            address: $fromEmail,
-            name: $this->mailTemplate->from_name
-                ? Blade::render($this->mailTemplate->from_name, $this->event->getAttributes())
-                : null,
+            address: $fromAddress,
+            name: $fromName,
         );
     }
 }
