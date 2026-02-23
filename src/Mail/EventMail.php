@@ -13,6 +13,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Validator;
 use MartinPetricko\LaravelDatabaseMail\Events\Contracts\TriggersDatabaseMail;
 use MartinPetricko\LaravelDatabaseMail\Exceptions\DatabaseMailException;
 use MartinPetricko\LaravelDatabaseMail\Models\MailTemplate;
@@ -72,8 +73,20 @@ class EventMail extends Mailable implements ShouldQueue
             return null;
         }
 
+        $fromEmail = Blade::render($this->mailTemplate->from_email, $this->event->getAttributes());
+
+        $validator = Validator::make([
+            'from_email' => $fromEmail,
+        ], [
+            'from_email' => ['required', 'email'],
+        ]);
+
+        if ($validator->fails()) {
+            return null;
+        }
+
         return new Address(
-            address: Blade::render($this->mailTemplate->from_email, $this->event->getAttributes()),
+            address: $fromEmail,
             name: $this->mailTemplate->from_name
                 ? Blade::render($this->mailTemplate->from_name, $this->event->getAttributes())
                 : null,
