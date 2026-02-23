@@ -13,6 +13,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Validator;
 use MartinPetricko\LaravelDatabaseMail\Events\Contracts\TriggersDatabaseMail;
 use MartinPetricko\LaravelDatabaseMail\Exceptions\DatabaseMailException;
 use MartinPetricko\LaravelDatabaseMail\Models\MailTemplate;
