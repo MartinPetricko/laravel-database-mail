@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MartinPetricko\LaravelDatabaseMail\Listeners;
 
 use Carbon\CarbonInterval;
-use Carbon\Exceptions\InvalidFormatException;
+use Throwable;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use MartinPetricko\LaravelDatabaseMail\Events\Contracts\TriggersDatabaseMail;
@@ -43,7 +43,7 @@ class SendDatabaseEmails
     {
         try {
             return CarbonInterval::createFromDateString($mailTemplate->delay ?: '');
-        } catch (InvalidFormatException) {
+        } catch (Throwable) {
             return CarbonInterval::seconds(0);
         }
     }
