@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/martinpetricko/laravel-database-mail/compare/2.0.3...HEAD)
 
+### Fixed
+
+- Remove duplicate recipient addresses from EventMail that some email providers reject as invalid requests
+
 ## [2.0.3](https://github.com/martinpetricko/laravel-database-mail/compare/2.0.2...2.0.3) - 2026-02-23
 
 ### What's Changed

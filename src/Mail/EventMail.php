@@ -67,6 +67,31 @@ class EventMail extends Mailable implements ShouldQueue
         $this->event->onFailure($exception);
     }
 
+    /**
+     * @param object|array<mixed>|string $address
+     */
+    protected function setAddress($address, $name = null, $property = 'to'): static
+    {
+        parent::setAddress($address, $name, $property);
+
+        /** @var array<int, array{name: string|null, address: string|array<int, string>}> $recipients */
+        $recipients = $this->{$property};
+
+        $unique = [];
+        foreach ($recipients as $recipient) {
+            foreach ((array) $recipient['address'] as $email) {
+                $unique[mb_strtolower($email)] ??= [
+                    'name' => $recipient['name'],
+                    'address' => $email,
+                ];
+            }
+        }
+
+        $this->{$property} = array_values($unique);
+
+        return $this;
+    }
+
     protected function getFromAddress(): ?Address
     {
         /** @var string $fromAddress */

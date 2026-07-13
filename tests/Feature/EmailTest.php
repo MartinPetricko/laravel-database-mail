@@ -10,6 +10,7 @@ use MartinPetricko\LaravelDatabaseMail\Facades\LaravelDatabaseMail;
 use MartinPetricko\LaravelDatabaseMail\Mail\EventMail;
 use MartinPetricko\LaravelDatabaseMail\Models\MailException;
 use MartinPetricko\LaravelDatabaseMail\Models\MailTemplate;
+use MartinPetricko\LaravelDatabaseMail\Tests\Fixtures\Events\NewsletterSent;
 
 beforeEach(function () {
     Mail::fake();
@@ -47,6 +48,28 @@ it('can send mail after event was fired', function () {
             ->assertSeeInHtml('Hi John Doe')
             ->assertDontSeeInHtml('Lorem')
             ->assertHasAttachment(Attachment::fromUrl('https://your-app.com/tos')->as('tos.pdf'));
+    });
+});
+
+it('can send mail to multi address recipient without duplicate addresses', function () {
+    MailTemplate::create([
+        'name' => 'Newsletter Email',
+        'event' => NewsletterSent::class,
+        'subject' => 'Newsletter',
+        'body' => '<h1>Newsletter</h1>',
+        'recipients' => ['subscribers'],
+        'attachments' => [],
+        'delay' => null,
+        'is_active' => true,
+    ]);
+
+    NewsletterSent::dispatch(['john@doe.com', 'JOHN@doe.com', 'jane@doe.com']);
+
+    Mail::assertQueued(EventMail::class, function (EventMail $mail) {
+        return $mail->to === [
+            ['name' => null, 'address' => 'john@doe.com'],
+            ['name' => null, 'address' => 'jane@doe.com'],
+        ];
     });
 });
 
